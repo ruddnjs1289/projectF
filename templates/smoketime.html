@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css"
+    
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="home">Home
+                  <span class="visually-hidden">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="member">직원정보</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="worktime">출근정보</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="smoketime">흡연정보</a>
+              </li>
+              <li class="nav-item dropdown">
+                
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Separated link</a>
+                </div>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-sm-2" type="text" placeholder="Search">
+              <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    
+
+
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">순서</th>
+            <th scope="col">이름</th>
+            <th scope="col">흡연시작</th>
+            <th scope="col">흡연종료</th>
+            <th scope="col">흡연시간(분)</th>
+            
+           
+          </tr>
+        </thead>
+        <tbody>
+        {%for smoketime in smoketime_list.items %}
+          <tr class="table-active">
+            <th scope="row">{{smoketime.cnt}}</th>
+            <td>{{smoketime.worktimes.memberinfos.name}}</td>
+            <td>{{smoketime.startsmoke}}</td>
+            <td>{{smoketime.endsmoke}}</td>
+            <td>{{smoketime.endsmoke-smoketime.startsmoke}}</td>
+          </tr>
+          {% endfor %}
+        
+        </tbody>
+      </table>
+
+ <!-- 페이징처리 시작 -->
+ <ul class="pagination justify-content-center">
+    <!-- 이전페이지 -->
+    {% if smoketime_list.has_prev %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ smoketime_list.prev_num }}">이전</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">이전</a>
+    </li>
+    {% endif %}
+    {% for page_num in smoketime_list.iter_pages() %}
+    {% if page_num %}
+    {% if page_num != smoketime_list.page %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+    </li>
+    {% else %}
+    <li class="page-item active" aria-current="page">
+        <a class="page-link" href="javascript:void(0)">{{ page_num }}</a>
+    </li>
+    {% endif %}
+    {% else %}
+    <li class="disabled">
+        <a class="page-link" href="javascript:void(0)">...</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+    <!-- 다음페이지 -->
+    {% if smoketime_list.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ smoketime_list.next_num }}">다음</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">다음</a>
+    </li>
+    {% endif %}
+</ul>
+
+
+
+
+
+
+    
+</body>
+</html>
